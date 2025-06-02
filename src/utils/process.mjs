@@ -32,7 +32,7 @@ const listAndProcess = async () => {
 
     const avgTemp = (allData.reduce((sum, item) => sum + parseFloat(item.temperature), 0) / allData.length).toFixed(2);
     const avgPressure = (allData.reduce((sum, item) => sum + parseFloat(item.pressure), 0) / allData.length).toFixed(2);
-    const timestamp = new Date(now - i * 60000).toISOString();
+    const timestamp = new Date().toISOString();
 
     const newEntry = {
         timestamp,
