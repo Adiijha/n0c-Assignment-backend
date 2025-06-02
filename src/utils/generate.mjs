@@ -1,9 +1,14 @@
 import AWS from 'aws-sdk';
 import dotenv from 'dotenv';
-import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-dotenv.config({ path: path.resolve(process.cwd(), '../..', '.env') });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
 
 const s3 = new AWS.S3({
     region: process.env.AWS_REGION,
