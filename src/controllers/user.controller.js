@@ -10,10 +10,8 @@ dotenv.config();
 const generateAccessAndRefreshTokens = (user) => {
     const accessToken = jwt.sign({
         id: user.id,
-        username: user.username,
         email: user.email,
         name: user.name,
-        phoneNumber: user.phoneNumber
     }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
 
     const refreshToken = jwt.sign({ id: user.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRY });
@@ -36,13 +34,13 @@ const registerUser = asyncHandler(async (req, res) => {
     );
 
     if (existing.length > 0) {
-        throw new ApiError(400, "Email already exists.");
+        return res.status(400).json({ message: "Email already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await pool.query(
-        "INSERT INTO users (name, email, password) VALUES (?, ?, ?, ?)",
+        "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
         [name, email, hashedPassword]
     );
 
@@ -62,13 +60,13 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 
   if (rows.length === 0) {
-    throw new ApiError(404, "User not found.");
+    return res.status(404).json({ message: "User not found." });
   }
 
   const user = rows[0];
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid credentials.");
+    return res.status(400).json({ message: "Invalid email or password" });
   }
 
   const { accessToken, refreshToken } = generateAccessAndRefreshTokens(user);
