@@ -1,13 +1,16 @@
 import AWS from 'aws-sdk';
 import dotenv from 'dotenv';
-import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(process.cwd(), '../..', '.env') });
 
 const s3 = new AWS.S3({
-    region: process.env.AWS_REGION
+    region: process.env.AWS_REGION,
+    // accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    // secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
+
 const bucketName = process.env.S3_BUCKET;
 
 const generateData = () => {
@@ -17,8 +20,9 @@ const generateData = () => {
         data.push({
             id: uuidv4(),
             timestamp: new Date(now - i * 60000).toISOString(),
-            temperature: (Math.random() * 40).toFixed(2),
-            pressure: (Math.random() * 1000 + 900).toFixed(2)
+            temperature: (Math.random() * 35 + 10).toFixed(2), 
+            pressure: (Math.random() * 70 + 980).toFixed(2)     
+
         });
     }
     return data;
