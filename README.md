@@ -190,5 +190,3 @@ pm2 start src/index.js --name backend
 ## 📄 License
 
 MIT License © \[Adiijha]
-
-```
