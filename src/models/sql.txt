@@ -1,3 +1,7 @@
+//first we will create the database and the user table
+
+CREATE DATABASE assignment;
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -7,3 +11,16 @@ CREATE TABLE users (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+//all quieries used in the controllers
+
+//Register
+SELECT * FROM users WHERE email = ?
+INSERT INTO users (name, email, password) VALUES (?, ?, ?)
+
+//Login
+SELECT * FROM users WHERE email = ?
+
+//Get Profile
+SELECT name FROM users WHERE id = ?
+
